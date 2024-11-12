@@ -86,12 +86,12 @@ resource "azurerm_network_security_group" "nsgvnet20" {
 }
 
 resource "azurerm_subnet_network_security_group_association" "nsgsnvnet10pub" {
-    subnet_id                 = azurerm_subnet.subnet_vnet10_id.id
+    subnet_id                 = azurerm_subnet.subnet_vnet10.id
     network_security_group_id = azurerm_network_security_group.nsgvnet10.id
 }
 
 resource "azurerm_subnet_network_security_group_association" "nsgsnvnet20priv" {
-    subnet_id                 = azurerm_subnet.subnet_vnet20_id.id
+    subnet_id                 = azurerm_subnet.subnet_vnet20.id
     network_security_group_id = azurerm_network_security_group.nsgvnet20.id
     depends_on                = [ azurerm_subnet.subnet_vnet20_id ]
 }

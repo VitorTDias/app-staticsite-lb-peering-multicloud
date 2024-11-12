@@ -1,8 +1,8 @@
-variable "rede_pub_id" {}
+variable "vpc10_id" {}
 variable "subnet_pub_id" {}
 variable "rede_pub_cidr" {}
 
-variable "rede_pri_id" {}
+variable "vpc20_id" {}
 variable "subnet_pri_id" {}
 variable "rede_pri_cidr" {}
 

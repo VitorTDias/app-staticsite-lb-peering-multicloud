@@ -2,7 +2,7 @@
 
 resource "aws_security_group" "sg_public" {
     name   = "sg_public"
-    vpc_id = "${var.rede_pub_id}"
+    vpc_id = "${var.vpc10_id}"
     
     egress {
         from_port   = 0
@@ -60,7 +60,7 @@ resource "aws_instance" "ec2_public1b" {
 
 resource "aws_security_group" "sg_private" {
     name   = "sg_private"
-    vpc_id = "${var.rede_pri_id}"
+    vpc_id = "${var.vpc20_id}"
     egress {
         from_port   = 0
         to_port     = 0

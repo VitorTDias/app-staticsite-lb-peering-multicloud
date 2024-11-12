@@ -20,5 +20,5 @@ variable "subnet_cidr" {
 
 variable "fqdn" {
     type    = string
-    default = "staticsitelbpeering2"
+    default = "staticsitelbpeeringvt2"
 }

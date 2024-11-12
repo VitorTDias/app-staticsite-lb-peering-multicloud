@@ -9,12 +9,12 @@ module "rede" {
 
 module "compute" {
     source     = "./modules/compute"
-    vpc10_id    = "${modules.rede.vpc10_id}"
-    vpc20_id    = "${modules.rede.vpc20_id}"
-    sn_vpc10_pub_id  = "${modules.rede.subnet_pub_id}"
-    sn_vpc20_pri_id  = "${modules.rede.subnet_pri_id}"
+    vpc10_id    = "${module.rede.vpc10_id}"
+    vpc20_id    = "${module.rede.vpc20_id}"
+    sn_vpc10_pub_id  = "${module.rede.subnet_pub_id}"
+    sn_vpc20_pri_id  = "${module.rede.subnet_pri_id}"
     vpc10_cidr  = "${var.vpc10_cidr}"
     vpc20_cidr  = "${var.vpc20_cidr}"
     ami        = "${var.ami}"
-    depends_on = [modules.rede]
+    depends_on = [module.rede]
 }

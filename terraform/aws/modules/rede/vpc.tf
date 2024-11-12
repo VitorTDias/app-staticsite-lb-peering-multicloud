@@ -15,7 +15,7 @@ resource "aws_subnet" "sn_vpc10_pub" {
     map_public_ip_on_launch = true
 }
 
-resource "aws_subnet" "sn_vpc20_priv" {
+resource "aws_subnet" "sn_vpc20_pri" {
     vpc_id            = aws_vpc.vpc20.id
     cidr_block        = "${var.subnet_pri_cidr}"
     availability_zone = "us-east-1a"
@@ -43,7 +43,7 @@ resource "aws_route_table" "rt_sn_vpc10_pub" {
     }
 }
 
-resource "aws_route_table" "rt_sn_vpc20_priv" {
+resource "aws_route_table" "rt_sn_vpc20_pri" {
     vpc_id = aws_vpc.vpc20.id
     route {
         cidr_block = "${var.vpc10_cidr}"

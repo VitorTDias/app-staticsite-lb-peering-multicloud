@@ -1,10 +1,10 @@
 resource "aws_vpc" "vpc10" {
-    cidr_block           = "${var.rede_pub_cidr}"
+    cidr_block           = "${var.vpc10_cidr}"
     enable_dns_hostnames = "true"
 }
 
 resource "aws_vpc" "vpc20" {
-    cidr_block           = "${var.rede_pri_cidr}"
+    cidr_block           = "${var.vpc20_cidr}"
     enable_dns_hostnames = "true"
 }
 
@@ -34,7 +34,7 @@ resource "aws_internet_gateway" "igw_vpc10" {
 resource "aws_route_table" "rt_sn_vpc10_pub" {
     vpc_id = aws_vpc.vpc10.id
     route {
-        cidr_block = "${var.rede_pri_cidr}"
+        cidr_block = "${var.vpc20_cidr}"
         gateway_id = aws_vpc_peering_connection.vpc_peering.id
     }
     route {
@@ -46,7 +46,7 @@ resource "aws_route_table" "rt_sn_vpc10_pub" {
 resource "aws_route_table" "rt_sn_vpc20_priv" {
     vpc_id = aws_vpc.vpc20.id
     route {
-        cidr_block = "${var.rede_pub_cidr}"
+        cidr_block = "${var.vpc10_cidr}"
         gateway_id = aws_vpc_peering_connection.vpc_peering.id
     }
 }

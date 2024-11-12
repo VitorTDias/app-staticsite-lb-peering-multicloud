@@ -1,10 +1,10 @@
 variable "vpc10_id" {}
 variable "subnet_pub_id" {}
-variable "rede_pub_cidr" {}
+variable "vpc10_cidr" {}
 
 variable "vpc20_id" {}
 variable "subnet_pri_id" {}
-variable "rede_pri_cidr" {}
+variable "vpc20_cidr" {}
 
 variable "ami" {
     type    = string

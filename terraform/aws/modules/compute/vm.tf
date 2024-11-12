@@ -15,7 +15,7 @@ resource "aws_security_group" "sg_public" {
         from_port   = 0
         to_port     = 0
         protocol    = "-1"
-        cidr_blocks = ["${var.rede_pub_cidr}"]
+        cidr_blocks = ["${var.vpc10_cidr}"]
     }
 
     ingress {
@@ -71,7 +71,7 @@ resource "aws_security_group" "sg_private" {
         from_port   = 0
         to_port     = 0
         protocol    = "-1"
-        cidr_blocks = ["${var.rede_pri_cidr}"]
+        cidr_blocks = ["${var.vpc20_cidr}"]
     }
 }
 

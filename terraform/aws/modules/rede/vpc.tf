@@ -56,8 +56,8 @@ resource "aws_route_table_association" "rt_sn_vpc10_pub_To_sn_vpc10_pub" {
   route_table_id = aws_route_table.rt_sn_vpc10_pub.id
 }
 
-resource "aws_route_table_association" "rt_sn_vpc20_priv_To_sn_vpc20_priv" {
-  subnet_id      = aws_subnet.sn_vpc20_priv.id
-  route_table_id = aws_route_table.rt_sn_vpc20_priv.id
+resource "aws_route_table_association" "rt_sn_vpc20_priv_To_sn_vpc20_pri" {
+  subnet_id      = aws_subnet.sn_vpc20_pri.id
+  route_table_id = aws_route_table.rt_sn_vpc20_pri.id
 }
 

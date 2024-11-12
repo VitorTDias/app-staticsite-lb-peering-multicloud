@@ -11,7 +11,7 @@ env:
   ARM_CLIENT_SECRET  : ${{ secrets.ARM_CLIENT_SECRET }}
   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
   ARM_TENANT_ID      : ${{ secrets.ARM_TENANT_ID }}
-
+#
 jobs:
   ci-test:
     name: Test
@@ -47,7 +47,7 @@ jobs:
         aws-session-token    : ${{ secrets.AWS_SESSION_TOKEN }}
         aws-region           : us-east-1
     - run: terraform -chdir=./terraform/aws init
-    - run: terraform -chdir=./terraform/aws plan -destroy -out tfplan
+    - run: terraform -chdir=./terraform/aws plan -out tfplan
     - run: terraform -chdir=./terraform/aws apply tfplan
     - run: terraform -chdir=./terraform/aws show
   cd-azure:
@@ -60,6 +60,12 @@ jobs:
         terraform_version: $TERRAFORM_VERSION
     - uses: actions/checkout@v4
     - run: terraform -chdir=./terraform/azure init
-    - run: terraform -chdir=./terraform/azure plan -destroy -out tfplan
+    - run: terraform -chdir=./terraform/azure plan -out tfplan
     - run: terraform -chdir=./terraform/azure apply tfplan
     - run: terraform -chdir=./terraform/azure show
+
+    - name: Step 06 - Terraform Checkov Setup
+      run : pip3 install checkov
+
+    - name: Step 07 - Terraform Checkov Run
+      run : checkov --directory ./terraform

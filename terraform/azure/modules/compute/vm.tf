@@ -6,7 +6,7 @@ resource "azurerm_availability_set" "as_public" {
     resource_group_name = "${var.rg_name}"
 }
 
-resource "azurerm_public_ip" "vm01_pip_public" {
+resource "azurerm_public_ip" "lb" {
     name                = "vm01-pip-public"
     location            = "${var.location}"
     resource_group_name = "${var.rg_name}"
@@ -22,7 +22,19 @@ resource "azurerm_network_interface" "vm01_nic_public" {
         name                          = "vm01-ipconfig-public"
         subnet_id                     = "${var.subnet_vnet10_id}"
         private_ip_address_allocation = "Dynamic"
-        public_ip_address_id          = azurerm_public_ip.vm01_pip_public.id
+        public_ip_address_id          = azurerm_public_ip.lb.id
+    }
+}
+
+resource "azurerm_network_interface" "vm02_nic_public" {
+    name                = "vm01-nic-public"
+    location            = "${var.location}"
+    resource_group_name = "${var.rg_name}"
+    ip_configuration {
+        name                          = "vm01-ipconfig-public"
+        subnet_id                     = "${var.subnet_vnet10_id}"
+        private_ip_address_allocation = "Dynamic"
+        public_ip_address_id          = azurerm_public_ip.lb.id
     }
 }
 
@@ -62,7 +74,7 @@ resource "azurerm_virtual_machine" "vm02_public" {
     name                             = "vm0-public"
     location                         = "${var.location}"
     resource_group_name              = "${var.rg_name}"
-    network_interface_ids            = [azurerm_network_interface.vm01_nic_public.id]
+    network_interface_ids            = [azurerm_network_interface.vm02_nic_public.id]
     availability_set_id              = azurerm_availability_set.as_public.id
     vm_size                          = "Standard_D2s_v3"
     delete_os_disk_on_termination    = true
@@ -140,4 +152,52 @@ resource "azurerm_virtual_machine" "vm02_private" {
     os_profile_linux_config {
         disable_password_authentication = false
     }
+}
+
+## LOAD BALANCER
+
+resource "azurerm_public_ip" "lb" {
+    name                = "lb"
+    location            = "${var.location}"
+    resource_group_name = "${var.rg_name}"
+    allocation_method   = "Static"
+    domain_name_label   = "staticsite-lb-azure-vitor"
+}
+
+resource "azurerm_lb" "lb" {
+    name                = "lb"
+    location            = "${var.location}"
+    resource_group_name = "${var.rg_name}"
+    frontend_ip_configuration {
+        name                 = "lb"
+        public_ip_address_id = azurerm_public_ip.lb.id
+    }
+}
+
+resource "azurerm_lb_backend_address_pool" "lb" {
+    name            = "lb"
+    loadbalancer_id = azurerm_lb.lb.id
+}
+
+resource "azurerm_lb_rule" "lb" {
+    name                           = "HTTP"
+    loadbalancer_id                = azurerm_lb.lb.id
+    protocol                       = "Tcp"
+    frontend_port                  = 80
+    backend_port                   = 80
+    frontend_ip_configuration_name = "lb"
+    backend_address_pool_ids       = [azurerm_lb_backend_address_pool.lb.id]
+    load_distribution              = "SourceIPProtocol"
+}
+
+resource "azurerm_network_interface_backend_address_pool_association" "vm01" {
+    ip_configuration_name   = "vm01"
+    network_interface_id    = azurerm_network_interface.vm01_nic_public.id
+    backend_address_pool_id = azurerm_lb_backend_address_pool.lb.id
+}
+
+resource "azurerm_network_interface_backend_address_pool_association" "vm02" {
+    ip_configuration_name   = "vm02"
+    network_interface_id    = azurerm_network_interface.vm02_nic_public.id
+    backend_address_pool_id = azurerm_lb_backend_address_pool.lb.id
 }

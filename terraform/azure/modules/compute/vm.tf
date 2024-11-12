@@ -6,14 +6,6 @@ resource "azurerm_availability_set" "as_public" {
     resource_group_name = "${var.rg_name}"
 }
 
-resource "azurerm_public_ip" "lb" {
-    name                = "vm01-pip-public"
-    location            = "${var.location}"
-    resource_group_name = "${var.rg_name}"
-    allocation_method   = "Static"
-    domain_name_label   = "${var.fqdn}"
-}
-
 resource "azurerm_network_interface" "vm01_nic_public" {
     name                = "vm01-nic-public"
     location            = "${var.location}"
@@ -161,7 +153,7 @@ resource "azurerm_public_ip" "lb" {
     location            = "${var.location}"
     resource_group_name = "${var.rg_name}"
     allocation_method   = "Static"
-    domain_name_label   = "staticsite-lb-azure-vitor"
+    domain_name_label   = "${var.fqdn}"
 }
 
 resource "azurerm_lb" "lb" {

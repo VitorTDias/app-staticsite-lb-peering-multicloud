@@ -18,6 +18,6 @@ variable "fqdn" {
     default = "fqdn-default"
 }
 
-variable subnet_vnet10_id}{}
+variable subnet_vnet10_id{}
 
-variable subnet_vnet20_id}{}
+variable subnet_vnet20_id{}

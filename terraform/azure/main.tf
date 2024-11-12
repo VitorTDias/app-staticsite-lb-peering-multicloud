@@ -18,6 +18,6 @@ module "compute" {
     rg_name    = "${var.rg_name}"
     location   = "${var.location}"
     fqdn       = "${var.fqdn}"
-    subnet_id  = "${module.rede.subnet_id}"
+    subnet_vnet10_id  = "${module.rede.subnet_vnet10_id}"
     depends_on = [module.rede]
 }

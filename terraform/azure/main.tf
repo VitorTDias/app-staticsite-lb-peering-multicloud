@@ -14,7 +14,7 @@ module "rede" {
     subnet_vnet20_cidr = "${var.subnet_vnet20_cidr}"    
     depends_on  = [module.rg]
 }
-
+#
 module "compute" {
     source     = "./modules/compute"
     rg_name    = "${var.rg_name}"

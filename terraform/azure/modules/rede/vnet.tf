@@ -26,15 +26,15 @@ resource "azurerm_virtual_network_peering" "vnet20-to-vnet10" {
   remote_virtual_network_id = azurerm_virtual_network.vnet10.id
 }
 
-resource "azurerm_subnet" "subnet_vnet10_id" {
-    name                 = "subnet_vnet10_id"
+resource "azurerm_subnet" "subnet_vnet10" {
+    name                 = "subnet_vnet10"
     resource_group_name  = "${var.rg_name}"
     virtual_network_name = azurerm_virtual_network.vnet10.name
     address_prefixes     = ["${var.subnet_vnet10_cidr}"]
 }
 
-resource "azurerm_subnet" "subnet_vnet20_id" {
-    name                 = "subnet_vnet20_id"
+resource "azurerm_subnet" "subnet_vnet20" {
+    name                 = "subnet_vnet20"
     resource_group_name  = "${var.rg_name}"
     virtual_network_name = azurerm_virtual_network.vnet20.name
     address_prefixes     = ["${var.subnet_vnet20_cidr}"]

@@ -19,5 +19,6 @@ module "compute" {
     location   = "${var.location}"
     fqdn       = "${var.fqdn}"
     subnet_vnet10_id  = "${module.rede.subnet_vnet10_id}"
+    subnet_vnet20_id  = "${module.rede.subnet_vnet20_id}"
     depends_on = [module.rede]
 }

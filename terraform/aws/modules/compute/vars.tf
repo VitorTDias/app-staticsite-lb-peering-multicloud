@@ -1,9 +1,9 @@
 variable "vpc10_id" {}
-variable "subnet_pub_id" {}
+variable "sn_vpc10_pub_id" {}
 variable "vpc10_cidr" {}
 
 variable "vpc20_id" {}
-variable "subnet_pri_id" {}
+variable "sn_vpc20_pri_id" {}
 variable "vpc20_cidr" {}
 
 variable "ami" {

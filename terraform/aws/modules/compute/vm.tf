@@ -41,7 +41,7 @@ data "template_file" "cloud_init" {
 resource "aws_instance" "ec2_public1a" {
     ami                    = "${var.ami}"
     instance_type          = "t2.micro"
-    subnet_id              = "${var.subnet_pub_id}"
+    subnet_id              = "${var.sn_vpc10_pub_id}"
     vpc_security_group_ids = [aws_security_group.sg_public.id]
     user_data              = "${base64encode(data.template_file.cloud_init.rendered)}"
     key_name               = "vockey"
@@ -50,7 +50,7 @@ resource "aws_instance" "ec2_public1a" {
 resource "aws_instance" "ec2_public1b" {
     ami                    = "${var.ami}"
     instance_type          = "t2.micro"
-    subnet_id              = "${var.subnet_pub_id}"
+    subnet_id              = "${var.sn_vpc10_pub_id}"
     vpc_security_group_ids = [aws_security_group.sg_public.id]
     user_data              = "${base64encode(data.template_file.cloud_init.rendered)}"
     key_name               = "vockey"
@@ -78,7 +78,7 @@ resource "aws_security_group" "sg_private" {
 resource "aws_instance" "ec2_private2a" {
     ami                    = "${var.ami}"
     instance_type          = "t2.micro"
-    subnet_id              = "${var.subnet_pri_id}"
+    subnet_id              = "${var.sn_vpc20_pri_id}"
     vpc_security_group_ids = [aws_security_group.sg_private.id]
     user_data              = "${base64encode(data.template_file.cloud_init.rendered)}"
     key_name               = "vockey"
@@ -87,7 +87,7 @@ resource "aws_instance" "ec2_private2a" {
 resource "aws_elb" "elb" {
     name            = "staticsite-lb-aws-vitor"
     security_groups = [aws_security_group.sg_public.id]
-    subnets         = ["${var.subnet_pub_id}", "${var.subnet_pri_id}"]
+    subnets         = ["${var.sn_vpc10_pub_id}"]
     listener {
         instance_port     = 80
         instance_protocol = "http"

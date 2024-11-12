@@ -55,7 +55,7 @@ resource "azurerm_virtual_machine" "vm01_public" {
         computer_name  = "vm01-public"
         admin_username = "azureuser"
         admin_password = "Password1234!"
-        custom_data    = "${base64encode(data.template_file.cloud_init.rendered)}"
+        user_data      = "${base64encode(data.template_file.cloud_init.rendered)}"
     }
     os_profile_linux_config {
         disable_password_authentication = false
@@ -87,7 +87,7 @@ resource "azurerm_virtual_machine" "vm02_public" {
         computer_name  = "vm01-public"
         admin_username = "azureuser"
         admin_password = "Password1234!"
-        custom_data    = "${base64encode(data.template_file.cloud_init.rendered)}"
+        user_data      = "${base64encode(data.template_file.cloud_init.rendered)}"
     }
     os_profile_linux_config {
         disable_password_authentication = false
@@ -138,7 +138,7 @@ resource "azurerm_virtual_machine" "vm02_private" {
         computer_name  = "vm02-private"
         admin_username = "azureuser"
         admin_password = "Password1234!"
-        custom_data    = "${base64encode(data.template_file.cloud_init.rendered)}"
+        user_data      = "${base64encode(data.template_file.cloud_init.rendered)}"
     
     }
     os_profile_linux_config {

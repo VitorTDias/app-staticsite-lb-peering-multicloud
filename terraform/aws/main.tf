@@ -16,5 +16,5 @@ module "compute" {
     rede_pub_cidr  = "${var.rede_pub_cidr}"
     rede_pri_cidr  = "${var.rede_pri_cidr}"
     ami        = "${var.ami}"
-    depends_on = [module.rede]
+    depends_on = [modules.rede]
 }

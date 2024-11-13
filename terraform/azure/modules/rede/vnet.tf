@@ -26,11 +26,18 @@ resource "azurerm_virtual_network_peering" "vnet20-to-vnet10" {
   remote_virtual_network_id = azurerm_virtual_network.vnet10.id
 }
 
-resource "azurerm_subnet" "subnet_vnet10" {
-    name                 = "subnet_vnet10"
+resource "azurerm_subnet" "subnet_vnet10a" {
+    name                 = "subnet_vnet10a"
     resource_group_name  = "${var.rg_name}"
     virtual_network_name = azurerm_virtual_network.vnet10.name
-    address_prefixes     = ["${var.subnet_vnet10_cidr}"]
+    address_prefixes     = ["${var.subnet_vnet10a_cidr}"]
+}
+
+resource "azurerm_subnet" "subnet_vnet10b" {
+    name                 = "subnet_vnet10b"
+    resource_group_name  = "${var.rg_name}"
+    virtual_network_name = azurerm_virtual_network.vnet10.name
+    address_prefixes     = ["${var.subnet_vnet10b_cidr}"]
 }
 
 resource "azurerm_subnet" "subnet_vnet20" {
@@ -85,8 +92,13 @@ resource "azurerm_network_security_group" "nsgvnet20" {
     }
 }
 
-resource "azurerm_subnet_network_security_group_association" "nsgsnvnet10pub" {
-    subnet_id                 = azurerm_subnet.subnet_vnet10.id
+resource "azurerm_subnet_network_security_group_association" "nsgsnvnet10puba" {
+    subnet_id                 = azurerm_subnet.subnet_vnet10a.id
+    network_security_group_id = azurerm_network_security_group.nsgvnet10.id
+}
+
+resource "azurerm_subnet_network_security_group_association" "nsgsnvnet10pubb" {
+    subnet_id                 = azurerm_subnet.subnet_vnet10b.id
     network_security_group_id = azurerm_network_security_group.nsgvnet10.id
 }
 

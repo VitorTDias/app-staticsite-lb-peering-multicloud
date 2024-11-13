@@ -6,6 +6,16 @@ resource "azurerm_availability_set" "as_public" {
     resource_group_name = "${var.rg_name}"
 }
 
+/////// VM 1 PUB
+
+resource "azurerm_public_ip" "vm01_pip_public" {
+    name                = "vm01-pip-public"
+    location            = "${var.location}"
+    resource_group_name = "${var.rg_name}"
+    allocation_method   = "Static"
+    domain_name_label   = "vm01-pip-public"
+}
+
 resource "azurerm_network_interface" "vm01_nic_public" {
     name                = "vm01-nic-public"
     location            = "${var.location}"
@@ -14,21 +24,11 @@ resource "azurerm_network_interface" "vm01_nic_public" {
         name                          = "vm01-ipconfig-public"
         subnet_id                     = "${var.subnet_vnet10_id}"
         private_ip_address_allocation = "Dynamic"
-        public_ip_address_id          = azurerm_public_ip.lb.id
+        public_ip_address_id          = azurerm_public_ip.vm01_pip_public.id
     }
 }
 
-resource "azurerm_network_interface" "vm02_nic_public" {
-    name                = "vm01-nic-public"
-    location            = "${var.location}"
-    resource_group_name = "${var.rg_name}"
-    ip_configuration {
-        name                          = "vm01-ipconfig-public"
-        subnet_id                     = "${var.subnet_vnet10_id}"
-        private_ip_address_allocation = "Dynamic"
-        public_ip_address_id          = azurerm_public_ip.lb.id
-    }
-}
+
 
 resource "azurerm_virtual_machine" "vm01_public" {
     name                             = "vm01-public"
@@ -61,6 +61,21 @@ resource "azurerm_virtual_machine" "vm01_public" {
         disable_password_authentication = false
     }
 }
+
+///// VM 2 PUB
+
+resource "azurerm_network_interface" "vm02_nic_public" {
+    name                = "vm01-nic-public"
+    location            = "${var.location}"
+    resource_group_name = "${var.rg_name}"
+    ip_configuration {
+        name                          = "vm01-ipconfig-public"
+        subnet_id                     = "${var.subnet_vnet10_id}"
+        private_ip_address_allocation = "Dynamic"
+        public_ip_address_id          = azurerm_public_ip.lb.id
+    }
+}
+
 
 resource "azurerm_virtual_machine" "vm02_public" {
     name                             = "vm0-public"

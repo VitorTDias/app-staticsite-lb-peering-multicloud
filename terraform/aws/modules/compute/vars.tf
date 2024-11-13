@@ -1,5 +1,6 @@
 variable "vpc10_id" {}
-variable "sn_vpc10_pub_id" {}
+variable "sn_vpc10_puba_id" {}
+variable "sn_vpc10_pubb_id" {}
 variable "vpc10_cidr" {}
 
 variable "vpc20_id" {}

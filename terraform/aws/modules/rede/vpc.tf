@@ -8,9 +8,16 @@ resource "aws_vpc" "vpc20" {
     enable_dns_hostnames = "true"
 }
 
-resource "aws_subnet" "sn_vpc10_pub" {
+resource "aws_subnet" "sn_vpc10_puba" {
     vpc_id                  = aws_vpc.vpc10.id
-    cidr_block              = "${var.subnet_pub_cidr}"
+    cidr_block              = "${var.subnet_puba_cidr}"
+    availability_zone       = "us-east-1a"
+    map_public_ip_on_launch = true
+}
+
+resource "aws_subnet" "sn_vpc10_pubb" {
+    vpc_id                  = aws_vpc.vpc10.id
+    cidr_block              = "${var.subnet_pubb_cidr}"
     availability_zone       = "us-east-1a"
     map_public_ip_on_launch = true
 }
@@ -51,8 +58,13 @@ resource "aws_route_table" "rt_sn_vpc20_pri" {
     }
 }
 
-resource "aws_route_table_association" "rt_sn_vpc10_pub_To_sn_vpc10_pub" {
-  subnet_id      = aws_subnet.sn_vpc10_pub.id
+resource "aws_route_table_association" "rt_sn_vpc10_pub_To_sn_vpc10_puba" {
+  subnet_id      = aws_subnet.sn_vpc10_puba.id
+  route_table_id = aws_route_table.rt_sn_vpc10_pub.id
+}
+
+resource "aws_route_table_association" "rt_sn_vpc10_pub_To_sn_vpc10_pubb" {
+  subnet_id      = aws_subnet.sn_vpc10_pubb.id
   route_table_id = aws_route_table.rt_sn_vpc10_pub.id
 }
 

@@ -1,6 +1,6 @@
 variable "rg_name" {
     type    = string
-    default = "rg-staticsitelbpeering2"
+    default = "rg-staticsitelbpeering"
 }
 
 variable "location" {

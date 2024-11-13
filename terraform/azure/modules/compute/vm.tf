@@ -1,3 +1,67 @@
+///////secuity group
+
+resource "azurerm_network_security_group" "nsgvnet10" {
+    name                = "nsgvnet10"
+    location            = "${var.location}"
+    resource_group_name = "${var.rg_name}"
+    security_rule {
+        name                       = "Inbound-Internet-HTTP"
+        priority                   = 1001
+        direction                  = "Inbound"
+        access                     = "Allow"
+        protocol                   = "Tcp"
+        source_port_range          = "*"
+        destination_port_range     = "80"
+        source_address_prefix      = "Internet"
+        destination_address_prefix = "*"
+    }
+    security_rule {
+        name                       = "Inbound-Internet-SSH"
+        priority                   = 1011
+        direction                  = "Inbound"
+        access                     = "Allow"
+        protocol                   = "Tcp"
+        source_port_range          = "*"
+        destination_port_range     = "22"
+        source_address_prefix      = "Internet"
+        destination_address_prefix = "*"
+    }
+}
+
+resource "azurerm_network_security_group" "nsgvnet20" {
+    name                = "nsgvnet20"
+    location            = "${var.location}"
+    resource_group_name = "${var.rg_name}"
+    security_rule {
+        name                       = "Inbound-Internet-All"
+        priority                   = 1001
+        direction                  = "Inbound"
+        access                     = "Deny"
+        protocol                   = "*"
+        source_port_range          = "*"
+        destination_port_range     = "*"
+        source_address_prefix      = "Internet"
+        destination_address_prefix = "*"
+    }
+}
+
+resource "azurerm_subnet_network_security_group_association" "nsgsnvnet10puba" {
+    subnet_id                 = azurerm_subnet.subnet_vnet10a.id
+    network_security_group_id = azurerm_network_security_group.nsgvnet10.id
+}
+
+resource "azurerm_subnet_network_security_group_association" "nsgsnvnet10pubb" {
+    subnet_id                 = azurerm_subnet.subnet_vnet10b.id
+    network_security_group_id = azurerm_network_security_group.nsgvnet10.id
+}
+
+resource "azurerm_subnet_network_security_group_association" "nsgsnvnet20priv" {
+    subnet_id                 = azurerm_subnet.subnet_vnet20.id
+    network_security_group_id = azurerm_network_security_group.nsgvnet20.id
+    depends_on                = [ azurerm_subnet.subnet_vnet20 ]
+}
+
+
 // PUBLICO
 
 resource "azurerm_availability_set" "as_public" {

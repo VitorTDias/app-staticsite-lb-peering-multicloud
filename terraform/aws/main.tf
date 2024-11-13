@@ -1,7 +1,8 @@
 module "rede" {
     source      = "./modules/rede"
     vpc10_cidr   = "${var.vpc10_cidr}"
-    subnet_pub_cidr = "${var.subnet_pub_cidr}"
+    subnet_puba_cidr = "${var.subnet_puba_cidr}"
+    subnet_pubb_cidr = "${var.subnet_pubb_cidr}"    
     vpc20_cidr   = "${var.vpc20_cidr}"
     subnet_pri_cidr = "${var.subnet_pri_cidr}"
    

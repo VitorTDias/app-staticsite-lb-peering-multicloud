@@ -24,6 +24,3 @@ variable "subnet_vnet10b_id"{}
 
 variable "subnet_vnet20_id"{}
 
-variable "vnet10_id" {}
-
-variable "vnet20_id" {}

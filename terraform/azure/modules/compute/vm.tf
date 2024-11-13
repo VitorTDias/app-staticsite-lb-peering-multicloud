@@ -46,17 +46,17 @@ resource "azurerm_network_security_group" "nsgvnet20" {
 }
 
 resource "azurerm_subnet_network_security_group_association" "nsgsnvnet10puba" {
-    subnet_id                 = "subnet_vnet10a_id"
+    subnet_id                 = "${var.subnet_vnet10a_id}"
     network_security_group_id = azurerm_network_security_group.nsgvnet10.id
 }
 
 resource "azurerm_subnet_network_security_group_association" "nsgsnvnet10pubb" {
-    subnet_id                 = "subnet_vnet10b_id"
+    subnet_id                 =  "${var.subnet_vnet10b_id}"
     network_security_group_id = azurerm_network_security_group.nsgvnet10.id
 }
 
 resource "azurerm_subnet_network_security_group_association" "nsgsnvnet20priv" {
-    subnet_id                 = "subnet_vnet20_id"
+    subnet_id                 =  "${var.subnet_vnet20_id}"
     network_security_group_id = azurerm_network_security_group.nsgvnet20.id
     depends_on                = [ azurerm_subnet.subnet_vnet20 ]
 }

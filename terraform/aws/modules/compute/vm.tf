@@ -133,10 +133,6 @@ resource "aws_lb_listener" "ec2_lb_listener" {
 }
 
 
-output "elb_dns_name" {
-    value = aws_elb.ec2_elb.dns_name
-}
-
 data "template_file" "cloud_init" {
     template = "${file("./modules/compute/init/cloud_init.sh")}"
 }

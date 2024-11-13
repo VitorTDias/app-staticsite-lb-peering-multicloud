@@ -22,12 +22,11 @@ resource "azurerm_network_interface" "vm01_nic_public" {
     resource_group_name = "${var.rg_name}"
     ip_configuration {
         name                          = "vm01-ipconfig-public"
-        subnet_id                     = "${var.subnet_vnet10_id}"
+        subnet_id                     = "${var.subnet_vnet10a_id}"
         private_ip_address_allocation = "Dynamic"
         public_ip_address_id          = azurerm_public_ip.vm01_pip_public.id
     }
 }
-
 
 
 resource "azurerm_virtual_machine" "vm01_public" {
@@ -64,21 +63,30 @@ resource "azurerm_virtual_machine" "vm01_public" {
 
 ///// VM 2 PUB
 
+
+resource "azurerm_public_ip" "vm02_pip_public" {
+    name                = "vm02-pip-public"
+    location            = "${var.location}"
+    resource_group_name = "${var.rg_name}"
+    allocation_method   = "Static"
+    domain_name_label   = "vm02-pip-public"
+}
+
 resource "azurerm_network_interface" "vm02_nic_public" {
-    name                = "vm01-nic-public"
+    name                = "vm02-nic-public"
     location            = "${var.location}"
     resource_group_name = "${var.rg_name}"
     ip_configuration {
         name                          = "vm01-ipconfig-public"
-        subnet_id                     = "${var.subnet_vnet10_id}"
+        subnet_id                     = "${var.subnet_vnet10b_id}"
         private_ip_address_allocation = "Dynamic"
-        public_ip_address_id          = azurerm_public_ip.lb.id
+        public_ip_address_id          = azurerm_public_ip.vm02_pip_public.id
     }
 }
 
 
 resource "azurerm_virtual_machine" "vm02_public" {
-    name                             = "vm0-public"
+    name                             = "vm02-public"
     location                         = "${var.location}"
     resource_group_name              = "${var.rg_name}"
     network_interface_ids            = [azurerm_network_interface.vm02_nic_public.id]

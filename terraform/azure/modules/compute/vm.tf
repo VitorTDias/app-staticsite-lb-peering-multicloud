@@ -86,7 +86,7 @@ resource "azurerm_network_interface" "vm01_nic_public" {
     resource_group_name = "${var.rg_name}"
     ip_configuration {
         name                          = "vm01-ipconfig-public"
-        subnet_id                     = "${var.subnet_vnet10a_id}"
+        subnet_id                     = "${var.subnet_vnet10a}"
         private_ip_address_allocation = "Dynamic"
         public_ip_address_id          = azurerm_public_ip.vm01_pip_public.id
     }
@@ -142,7 +142,7 @@ resource "azurerm_network_interface" "vm02_nic_public" {
     resource_group_name = "${var.rg_name}"
     ip_configuration {
         name                          = "vm01-ipconfig-public"
-        subnet_id                     = "${var.subnet_vnet10b_id}"
+        subnet_id                     = "${var.subnet_vnet10b}"
         private_ip_address_allocation = "Dynamic"
         public_ip_address_id          = azurerm_public_ip.vm02_pip_public.id
     }
@@ -199,7 +199,7 @@ resource "azurerm_network_interface" "vm02_nic_private" {
     resource_group_name = "${var.rg_name}"
     ip_configuration {
         name                          = "vm02-ipconfig-private"
-        subnet_id                     = "${var.subnet_vnet20_id}"
+        subnet_id                     = "${var.subnet_vnet20}"
         private_ip_address_allocation = "Dynamic"
     }
 }

@@ -107,27 +107,29 @@ resource "aws_instance" "ec2_private2a" {
 
 ////// Load balacer
 
-resource "aws_elb" "elb" {
-    name            = "staticsite-lb-aws-vitor"
-    security_groups = [aws_security_group.sg_public.id]
-    subnets         = ["${var.sn_vpc10_puba_id}", "${var.sn_vpc10_puba_id}"]
-    listener {
-        instance_port     = 80
-        instance_protocol = "http"
-        lb_port           = 80
-        lb_protocol       = "http"
-    }
-    health_check {
-        healthy_threshold   = 2
-        unhealthy_threshold = 2
-        timeout             = 3
-        target              = "HTTP:80/"
-        interval            = 30
-    }
-    instances = [
-        aws_instance.ec2_public1a.id, 
-        aws_instance.ec2_public1b.id,
-    ]
+resource "aws_lb" "ec2_lb" {
+  name               = "ec2-elb"
+  load_balancer_type = "application"
+  subnets            = ["${var.sn_vpc10_puba_id}", "${var.sn_vpc10_pubb_id}"]
+  security_groups    = [aws_security_group.sg_elb.id]
+}
+
+resource "aws_lb_target_group" "lb_tg" {
+  name     = "lbtg"
+  protocol = "HTTP"
+  port     = 80
+  vpc_id   = var.vpc10_id
+}
+
+resource "aws_lb_listener" "ec2_lb_listener" {
+  protocol          = "HTTP"
+  port              = 80
+  load_balancer_arn = aws_lb.ec2_lb.arn
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.lb_tg.arn
+  }
 }
 
 

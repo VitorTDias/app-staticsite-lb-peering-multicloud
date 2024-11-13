@@ -58,7 +58,6 @@ resource "azurerm_subnet_network_security_group_association" "nsgsnvnet10pubb" {
 resource "azurerm_subnet_network_security_group_association" "nsgsnvnet20priv" {
     subnet_id                 =  "${var.subnet_vnet20_id}"
     network_security_group_id = azurerm_network_security_group.nsgvnet20.id
-    depends_on                = [ azurerm_subnet.subnet_vnet20 ]
 }
 
 
